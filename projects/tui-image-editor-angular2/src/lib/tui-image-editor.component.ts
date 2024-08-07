@@ -2,10 +2,12 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -37,12 +39,15 @@ import ImageEditor from 'tui-image-editor';
 @Component({
   selector: 'tui-image-editor',
   templateUrl: 'tui-image-editor.component.html',
+  styleUrls: ['tui-image-editor.component.scss'],
   providers: [HistoryService],
 })
 export class TuiImageEditorComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
   @ViewChild('imageContainer') imageContainer: ElementRef;
+  @ViewChild('loadBtn') loadBtn: ElementRef;
+  @Output() onInitialization: EventEmitter<any> = new EventEmitter();
   @Input() options: {
     usageStatistics: boolean;
     selectionStyle?: {
@@ -73,7 +78,9 @@ export class TuiImageEditorComponent
     applyGroupSelectionStyle: true,
   };
   @Input() initialImage: string | File;
+  @Input() template='default';
   public imageEditor: any;
+  public imageLoaded= false;
   public initializeImgUrl: string = null;
   public imageChosen: boolean = false;
   public activeObjectId: number;
@@ -88,6 +95,8 @@ export class TuiImageEditorComponent
     | 'draw'
     | 'mask'
     | null;
+  showSubmenu=false;
+  isMenuExpanded=false;
   public rotation: number = 0;
   public onObjectActivatedEventListener: any;
   public onExecuteCommandEventListener: any;
@@ -126,6 +135,11 @@ export class TuiImageEditorComponent
       this.imageContainer.nativeElement,
       this.options
     );
+
+    this.onInitialization.emit({
+      imageEditor:this.imageEditor
+    })
+
     console.debug(this.imageEditor);
 
     this.imageEditor.registerIcons(defaultIconPath);
@@ -179,6 +193,8 @@ export class TuiImageEditorComponent
 
   ngAfterViewInit(): void {
     var that = this;
+    this.loadBtn.nativeElement.style.zIndex = '1'
+    this.imageContainer.nativeElement.style.zIndex = '-1'
 
     setTimeout(() => {
       //   this.imageEditor.on(eventNames.SELECTION_CLEARED, function () {
@@ -245,9 +261,15 @@ export class TuiImageEditorComponent
     this.historyService.next();
   }
 
+  onLoad(event:any){
+    this.loadBtn.nativeElement.style.zIndex = '-1'
+    this.imageContainer.nativeElement.style.zIndex = '1'
+    this.loadImage(event);
+  }
+
   loadImage(file: string | File | Blob) {
     const type=(<any>file)?.name?.split('.').pop();
-    if(type==='heic'){
+    if(type?.toLowerCase()==='heic'){
       heic2any({blob:<Blob>file}).then(data=>{
         file=<Blob>data;
         this.uploadIMage(file);
@@ -281,7 +303,7 @@ export class TuiImageEditorComponent
         .loadImageFromURL(this.initializeImgUrl, 'RandomFileName')
         .then((sizeValue: ImageSize) => {
           this.imageChosen = true;
-
+          this.showMenu('draw',false);
           this.exitCropOnAction();
           this.imageEditor.clearUndoStack();
           this.imageEditor.clearRedoStack();
@@ -341,6 +363,7 @@ export class TuiImageEditorComponent
   ) {
     if (this.submenu == menuName) {
       this.submenu = null;
+      this.showSubmenu=false;
       clearSelection(this.imageEditor);
       this.imageEditor.stopDrawingMode();
     }
@@ -371,6 +394,7 @@ export class TuiImageEditorComponent
     discardSelection: boolean = true
   ) {
     this.submenu = menuName;
+    this.showSubmenu=true;
     if (discardSelection) {
       clearSelection(this.imageEditor);
     }

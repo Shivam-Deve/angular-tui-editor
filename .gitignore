@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /projects/my-app
+/projects/my-test-app
 # Only exists if Bazel was run
 /bazel-out
 

@@ -6,6 +6,8 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { ToolsConfigService } from '../../services/tools.config-manager.service';
+import { ToolConfig, PenConfig, TextConfig } from '../../interfaces/tools-config';
 import { defaultColors, eventNames } from '../../consts';
 import { clearSelection, getActiveObjectId } from '../../utils';
 
@@ -23,8 +25,17 @@ export class DrawComponent implements OnChanges, OnDestroy {
   public activeObjectId: number;
   public onObjectActivatedEventListener: any;
 
-  constructor() {
+  constructor(
+    private toolConfigService: ToolsConfigService
+  ) {
     this.onObjectActivatedEventListener = this.onObjectActivated.bind(this);
+    this.toolConfigService.config$.subscribe(config => {
+      const {drawType,drawStrokeColor,drawStrokeWidthValue} = config.pen;
+      this.drawStrokeWidthValue=drawStrokeWidthValue;
+      this.drawType=drawType;
+      this.drawStrokeColor=drawStrokeColor;
+    });
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -92,6 +103,7 @@ export class DrawComponent implements OnChanges, OnDestroy {
       color: this.drawStrokeColor,
     });
     this.strokeChangeActiveObject('strokeWidth', isSilent);
+    this.toolConfigService.changePenConfig({drawStrokeWidthValue:(typeof currentStrokeWidth === "number" ? currentStrokeWidth : this.drawStrokeWidthValue)})
   }
 
   setDrawType(type: 'free' | 'line') {
@@ -102,6 +114,7 @@ export class DrawComponent implements OnChanges, OnDestroy {
         width: this.drawStrokeWidthValue,
         color: this.drawStrokeColor,
       });
+      this.toolConfigService.changePenConfig({drawType:type})
     } else {
       this.drawType = null;
       this.imageEditor.stopDrawingMode();
@@ -114,6 +127,7 @@ export class DrawComponent implements OnChanges, OnDestroy {
       color: currentStrokeColor,
     });
     this.strokeChangeActiveObject('strokeColor', false);
+    this.toolConfigService.changePenConfig({drawStrokeColor:currentStrokeColor})
   }
 
   setDrawMode(

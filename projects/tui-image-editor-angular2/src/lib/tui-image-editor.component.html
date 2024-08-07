@@ -1,171 +1,255 @@
-<div
-  class="tui-image-editor-d-flex tui-image-editor-flex-column tui-image-editor-justify-content-center tui-image-editor-h-100 tui-image-editor-w-100 tui-image-editor-container"
->
+<div *ngIf="template==='default';else newImageEditor"
+  class="tui-image-editor-d-flex tui-image-editor-flex-column tui-image-editor-justify-content-center tui-image-editor-h-100 tui-image-editor-w-100 tui-image-editor-container">
   <div
-    class="tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-wrap tui-image-editor-justify-content-center tui-image-editor-align-items-center"
-  >
+    class="tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-wrap tui-image-editor-justify-content-center tui-image-editor-align-items-center">
     <div
-      class="tui-image-editor-help-menu tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-wrap tui-image-editor-align-items-center tui-image-editor-justify-content-center tui-image-editor-p-1"
-    >
+      class="tui-image-editor-help-menu tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-wrap tui-image-editor-align-items-center tui-image-editor-justify-content-center tui-image-editor-p-1">
+      <div></div>
+      <!-- <div #loadBtn style="position: absolute;"
+        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap">
+        <tui-image-editor-menus-buttons-load (loadImage)="loadImage($event)"></tui-image-editor-menus-buttons-load>
+        <tui-image-editor-menus-buttons-download [imageChosen]="imageChosen"
+          [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-download>
+      </div> -->
       <div
-        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap"
-      >
-        <tui-image-editor-menus-buttons-load
-          (loadImage)="loadImage($event)"
-        ></tui-image-editor-menus-buttons-load>
-        <tui-image-editor-menus-buttons-download
-          [imageChosen]="imageChosen"
-          [imageEditor]="imageEditor"
-        ></tui-image-editor-menus-buttons-download>
+        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap">
+        <tui-image-editor-menus-buttons-zoom-in [imageChosen]="imageChosen"
+          [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-zoom-in>
+        <tui-image-editor-menus-buttons-zoom-out [imageChosen]="imageChosen"
+          [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-zoom-out>
+        <tui-image-editor-menus-buttons-drag [imageChosen]="imageChosen"
+          [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-drag>
       </div>
       <div
-        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap"
-      >
-        <tui-image-editor-menus-buttons-zoom-in
-          [imageChosen]="imageChosen"
-          [imageEditor]="imageEditor"
-        ></tui-image-editor-menus-buttons-zoom-in>
-        <tui-image-editor-menus-buttons-zoom-out
-          [imageChosen]="imageChosen"
-          [imageEditor]="imageEditor"
-        ></tui-image-editor-menus-buttons-zoom-out>
-        <tui-image-editor-menus-buttons-drag
-          [imageChosen]="imageChosen"
-          [imageEditor]="imageEditor"
-        ></tui-image-editor-menus-buttons-drag>
+        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap">
+        <tui-image-editor-menus-buttons-history [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-history>
+        <tui-image-editor-menus-buttons-undo [imageEditor]="imageEditor"
+          (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-menus-buttons-undo>
+        <tui-image-editor-menus-buttons-redo [imageEditor]="imageEditor"
+          (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-menus-buttons-redo>
+        <tui-image-editor-menus-buttons-reset [imageChosen]="imageChosen" [imageEditor]="imageEditor"
+          (cancelCroppingRequested)="exitCropOnAction()"
+          (resetImage)="resetImage()"></tui-image-editor-menus-buttons-reset>
       </div>
       <div
-        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap"
-      >
-        <tui-image-editor-menus-buttons-history
-          [imageEditor]="imageEditor"
-        ></tui-image-editor-menus-buttons-history>
-        <tui-image-editor-menus-buttons-undo
-          [imageEditor]="imageEditor"
-          (cancelCroppingRequested)="exitCropOnAction()"
-        ></tui-image-editor-menus-buttons-undo>
-        <tui-image-editor-menus-buttons-redo
-          [imageEditor]="imageEditor"
-          (cancelCroppingRequested)="exitCropOnAction()"
-        ></tui-image-editor-menus-buttons-redo>
-        <tui-image-editor-menus-buttons-reset
-          [imageChosen]="imageChosen"
-          [imageEditor]="imageEditor"
-          (cancelCroppingRequested)="exitCropOnAction()"
-          (resetImage)="resetImage()"
-        ></tui-image-editor-menus-buttons-reset>
-      </div>
-      <div
-        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap"
-      >
-        <tui-image-editor-menus-buttons-delete
-          [imageChosen]="imageChosen"
-          [imageEditor]="imageEditor"
-          (cancelCroppingRequested)="exitCropOnAction()"
-        ></tui-image-editor-menus-buttons-delete>
-        <tui-image-editor-menus-buttons-delete-all
-          [imageChosen]="imageChosen"
-          [imageEditor]="imageEditor"
-          (cancelCroppingRequested)="exitCropOnAction()"
-        ></tui-image-editor-menus-buttons-delete-all>
+        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap">
+        <tui-image-editor-menus-buttons-delete [imageChosen]="imageChosen" [imageEditor]="imageEditor"
+          (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-menus-buttons-delete>
+        <tui-image-editor-menus-buttons-delete-all [imageChosen]="imageChosen" [imageEditor]="imageEditor"
+          (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-menus-buttons-delete-all>
       </div>
     </div>
   </div>
-  <div
-    #imageContainer
+  <!-- <div #imageContainer
     class="tui-image-editor-flex-grow-1 tui-image-editor-d-flex tui-image-editor-align-items-center tui-image-editor-justify-content-center"
-    [style.height]="'0'"
-  ></div>
+    [style.height]="'0'"></div> -->
+    <div style="position: relative;height: 100%; display: flex; justify-content: center; align-items: center;">
+      <div #loadBtn style="position: absolute;"
+        class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap">
+        <tui-image-editor-menus-buttons-load (loadImage)="onLoad($event)"></tui-image-editor-menus-buttons-load>
+      </div>
+      <div style="position: absolute;height: 100%; width: 100%;" #imageContainer
+        class="tui-image-editor-flex-grow-1 tui-image-editor-d-flex tui-image-editor-align-items-center tui-image-editor-justify-content-center">
+      </div>
+    </div>
   <div class="tui-image-editor-submenu" *ngIf="submenu != null">
-    <tui-image-editor-submenus-crop
-      *ngIf="submenu == 'crop'"
-      [imageEditor]="imageEditor"
-      (cancelCroppingRequested)="exitCropOnAction()"
-    ></tui-image-editor-submenus-crop>
-    <tui-image-editor-submenus-flip
-      *ngIf="submenu == 'flip'"
-      [imageEditor]="imageEditor"
-    ></tui-image-editor-submenus-flip>
-    <tui-image-editor-submenus-rotate
-      *ngIf="submenu == 'rotate'"
-      [imageEditor]="imageEditor"
-      [(rotation)]="rotation"
-    ></tui-image-editor-submenus-rotate>
-    <tui-image-editor-submenus-draw
-      *ngIf="submenu == 'draw'"
-      [imageEditor]="imageEditor"
-    ></tui-image-editor-submenus-draw>
-    <tui-image-editor-submenus-shape
-      *ngIf="submenu == 'shape'"
-      [imageEditor]="imageEditor"
-    ></tui-image-editor-submenus-shape>
-    <tui-image-editor-submenus-icon
-      *ngIf="submenu == 'icon'"
-      [imageEditor]="imageEditor"
-    ></tui-image-editor-submenus-icon>
-    <tui-image-editor-submenus-text
-      *ngIf="submenu == 'text'"
-      [imageEditor]="imageEditor"
-    ></tui-image-editor-submenus-text>
-    <tui-image-editor-submenus-mask
-      *ngIf="submenu == 'mask'"
-      [imageEditor]="imageEditor"
-    ></tui-image-editor-submenus-mask>
-    <tui-image-editor-submenus-filter
-      *ngIf="submenu == 'filter'"
-      [imageEditor]="imageEditor"
-    ></tui-image-editor-submenus-filter>
+    <tui-image-editor-submenus-crop *ngIf="submenu == 'crop'" [imageEditor]="imageEditor"
+      (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-submenus-crop>
+    <tui-image-editor-submenus-flip *ngIf="submenu == 'flip'"
+      [imageEditor]="imageEditor"></tui-image-editor-submenus-flip>
+    <tui-image-editor-submenus-rotate *ngIf="submenu == 'rotate'" [imageEditor]="imageEditor"
+      [(rotation)]="rotation"></tui-image-editor-submenus-rotate>
+    <tui-image-editor-submenus-draw *ngIf="submenu == 'draw'"
+      [imageEditor]="imageEditor"></tui-image-editor-submenus-draw>
+    <tui-image-editor-submenus-shape *ngIf="submenu == 'shape'"
+      [imageEditor]="imageEditor"></tui-image-editor-submenus-shape>
+    <tui-image-editor-submenus-icon *ngIf="submenu == 'icon'"
+      [imageEditor]="imageEditor"></tui-image-editor-submenus-icon>
+    <tui-image-editor-submenus-text *ngIf="submenu == 'text'"
+      [imageEditor]="imageEditor"></tui-image-editor-submenus-text>
+    <tui-image-editor-submenus-mask *ngIf="submenu == 'mask'"
+      [imageEditor]="imageEditor"></tui-image-editor-submenus-mask>
+    <tui-image-editor-submenus-filter *ngIf="submenu == 'filter'"
+      [imageEditor]="imageEditor"></tui-image-editor-submenus-filter>
   </div>
-  <div class="tui-image-editor-controls tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-justify-content-center">
+  <div
+    class="tui-image-editor-controls tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-justify-content-center">
     <div
-      class="tui-image-editor-menu tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap tui-image-editor-align-items-center"
-    >
-      <tui-image-editor-menus-buttons-crop
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'crop'"
-        (clicked)="submenu == 'crop' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-crop>
-      <tui-image-editor-menus-buttons-flip
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'flip'"
-        (clicked)="submenu == 'flip' ? hideMenu($event) : showMenu($event)"
-      >
+      class="tui-image-editor-menu tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap tui-image-editor-align-items-center">
+      <tui-image-editor-menus-buttons-crop [imageChosen]="imageChosen" [selected]="submenu == 'crop'"
+        (clicked)="submenu == 'crop' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-crop>
+      <tui-image-editor-menus-buttons-flip [imageChosen]="imageChosen" [selected]="submenu == 'flip'"
+        (clicked)="submenu == 'flip' ? hideMenu($event) : showMenu($event)">
       </tui-image-editor-menus-buttons-flip>
-      <tui-image-editor-menus-buttons-rotate
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'rotate'"
-        (clicked)="submenu == 'rotate' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-rotate>
-      <tui-image-editor-menus-buttons-draw
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'draw'"
-        (clicked)="submenu == 'draw' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-draw>
-      <tui-image-editor-menus-buttons-shape
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'shape'"
-        (clicked)="submenu == 'shape' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-shape>
-      <tui-image-editor-menus-buttons-icon
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'icon'"
-        (clicked)="submenu == 'icon' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-icon>
-      <tui-image-editor-menus-buttons-text
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'text'"
-        (clicked)="submenu == 'text' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-text>
-      <tui-image-editor-menus-buttons-mask
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'mask'"
-        (clicked)="submenu == 'mask' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-mask>
-      <tui-image-editor-menus-buttons-filter
-        [imageChosen]="imageChosen"
-        [selected]="submenu == 'filter'"
-        (clicked)="submenu == 'filter' ? hideMenu($event) : showMenu($event)"
-      ></tui-image-editor-menus-buttons-filter>
+      <tui-image-editor-menus-buttons-rotate [imageChosen]="imageChosen" [selected]="submenu == 'rotate'"
+        (clicked)="submenu == 'rotate' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-rotate>
+      <tui-image-editor-menus-buttons-draw [imageChosen]="imageChosen" [selected]="submenu == 'draw'"
+        (clicked)="submenu == 'draw' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-draw>
+      <tui-image-editor-menus-buttons-shape [imageChosen]="imageChosen" [selected]="submenu == 'shape'"
+        (clicked)="submenu == 'shape' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-shape>
+      <tui-image-editor-menus-buttons-icon [imageChosen]="imageChosen" [selected]="submenu == 'icon'"
+        (clicked)="submenu == 'icon' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-icon>
+      <tui-image-editor-menus-buttons-text [imageChosen]="imageChosen" [selected]="submenu == 'text'"
+        (clicked)="submenu == 'text' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-text>
+      <tui-image-editor-menus-buttons-mask [imageChosen]="imageChosen" [selected]="submenu == 'mask'"
+        (clicked)="submenu == 'mask' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-mask>
+      <tui-image-editor-menus-buttons-filter [imageChosen]="imageChosen" [selected]="submenu == 'filter'"
+        (clicked)="submenu == 'filter' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-filter>
     </div>
   </div>
 </div>
+
+<ng-template #newImageEditor>
+  <div class="new-template tui-image-editor-container">
+    <div class="image-load-container">
+      <div style="position: relative;height: 100%; display: flex; justify-content: center; align-items: center;">
+        <div #loadBtn style="position: absolute;"
+          class="tui-image-editor-help-menu-item tui-image-editor-d-flex tui-image-editor-flex-row tui-image-editor-flex-nowrap">
+          <tui-image-editor-menus-buttons-load (loadImage)="onLoad($event)"></tui-image-editor-menus-buttons-load>
+        </div>
+        <div style="position: absolute;height: 100%; width: 100%;" #imageContainer
+          class="tui-image-editor-flex-grow-1 tui-image-editor-d-flex tui-image-editor-align-items-center tui-image-editor-justify-content-center">
+        </div>
+      </div>
+    </div>
+    <div class="tools-container" style="position: relative;" [style.width.px]="isMenuExpanded ? 160 : 80">
+      <div class="primary-tools">
+        <div class="selected-option" style="cursor: pointer;" (click)="showSubmenu=!showSubmenu">
+          <svg *ngIf="!showSubmenu" width="18" height="16" viewBox="0 0 18 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd"
+              d="M9.3809 2.67601H17.0011C17.5527 2.67601 18 3.12327 18 3.67491C18 4.22654 17.5527 4.6738 17.0011 4.6738H9.38083C8.94507 6.20757 7.53168 7.33419 5.86014 7.33419C4.18856 7.33419 2.77524 6.20757 2.33944 4.6738H0.998897C0.447224 4.6738 0 4.22651 0 3.67487C0 3.12323 0.447224 2.67597 0.998897 2.67601H2.33951C2.77527 1.14224 4.18863 0.015625 5.86021 0.015625C7.53175 0.015625 8.9451 1.14224 9.3809 2.67601ZM4.19868 3.67484C4.19868 4.59097 4.944 5.33632 5.86017 5.33632C6.77635 5.33632 7.52166 4.59097 7.52166 3.67484C7.52166 2.7587 6.77635 2.01335 5.86017 2.01335C4.944 2.01335 4.19868 2.7587 4.19868 3.67484ZM15.6581 11.3275H17.0011C17.5528 11.3275 18 11.7748 18 12.3264C18 12.8781 17.5528 13.3253 17.0011 13.3253H15.6581C15.2224 14.8591 13.809 15.9857 12.1374 15.9857C10.4659 15.9857 9.05254 14.8591 8.61674 13.3253H0.998897C0.447224 13.3253 0 12.8781 0 12.3264C0 11.7748 0.447224 11.3275 0.998897 11.3275H8.61674C9.05251 9.79378 10.4659 8.66716 12.1374 8.66716C13.809 8.66716 15.2223 9.79378 15.6581 11.3275ZM10.476 12.3264C10.476 13.2426 11.2213 13.9879 12.1374 13.9879C13.0536 13.9879 13.799 13.2426 13.7989 12.3264C13.7989 11.4103 13.0536 10.665 12.1374 10.665C11.2213 10.665 10.476 11.4103 10.476 12.3264Z"
+              fill="#25282B" />
+          </svg>
+          <svg *ngIf="showSubmenu" width="42" height="40" viewBox="0 0 42 40" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect width="42" height="40" rx="8" fill="#25282B" fill-opacity="0.1" />
+            <g opacity="0.7">
+              <path
+                d="M16.1375 25.9935C15.8433 26.0108 15.554 25.9119 15.3305 25.7176C14.8898 25.2691 14.8898 24.5447 15.3305 24.0962L24.9801 14.3337C25.4384 13.8998 26.1576 13.9239 26.5865 14.3876C26.9744 14.807 26.997 15.4515 26.6395 15.8976L16.9331 25.7176C16.7125 25.9091 16.4278 26.0078 16.1375 25.9935Z"
+                fill="#25282B" />
+              <path
+                d="M25.7732 25.9938C25.475 25.9925 25.1893 25.8728 24.9776 25.6603L15.328 15.8978C14.9197 15.4155 14.9752 14.6896 15.452 14.2765C15.8775 13.9078 16.5051 13.9078 16.9306 14.2765L26.637 24.039C27.0952 24.473 27.1189 25.2007 26.6899 25.6643C26.6728 25.6827 26.6552 25.7006 26.637 25.7178C26.3993 25.9269 26.0865 26.0268 25.7732 25.9938Z"
+                fill="#25282B" />
+            </g>
+          </svg>
+        </div>
+        <div class="hr">
+
+        </div>
+        <div class="menu">
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-draw #penMenu [imageChosen]="imageChosen" [selected]="submenu == 'draw'"
+              (clicked)="submenu == 'draw' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-draw>
+          </div>
+          <!-- <div class="eraser">
+  
+          </div> -->
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-text [imageChosen]="imageChosen" [selected]="submenu == 'text'"
+              (clicked)="submenu == 'text' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-text>
+          </div>
+          <div class="tool-icon-group">
+            <tui-image-editor-menus-buttons-zoom-in [imageChosen]="imageChosen"
+              [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-zoom-in>
+            <tui-image-editor-menus-buttons-zoom-out [imageChosen]="imageChosen"
+              [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-zoom-out>
+            <tui-image-editor-menus-buttons-drag [imageChosen]="imageChosen"
+              [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-drag>
+          </div>
+          <div class="tool-icon-group">
+            <tui-image-editor-menus-buttons-history
+              [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-history>
+            <tui-image-editor-menus-buttons-undo [imageEditor]="imageEditor"
+              (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-menus-buttons-undo>
+            <tui-image-editor-menus-buttons-redo [imageEditor]="imageEditor"
+              (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-menus-buttons-redo>
+            <tui-image-editor-menus-buttons-reset [imageChosen]="imageChosen" [imageEditor]="imageEditor"
+              (cancelCroppingRequested)="exitCropOnAction()"
+              (resetImage)="resetImage()"></tui-image-editor-menus-buttons-reset>
+          </div>
+
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-crop [imageChosen]="imageChosen" [selected]="submenu == 'crop'"
+              (clicked)="submenu == 'crop' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-crop>
+          </div>
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-flip [imageChosen]="imageChosen" [selected]="submenu == 'flip'"
+              (clicked)="submenu == 'flip' ? hideMenu($event) : showMenu($event)">
+            </tui-image-editor-menus-buttons-flip>
+          </div>
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-rotate [imageChosen]="imageChosen" [selected]="submenu == 'rotate'"
+              (clicked)="submenu == 'rotate' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-rotate>
+          </div>
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-shape [imageChosen]="imageChosen" [selected]="submenu == 'shape'"
+              (clicked)="submenu == 'shape' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-shape>
+          </div>
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-icon [imageChosen]="imageChosen" [selected]="submenu == 'icon'"
+              (clicked)="submenu == 'icon' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-icon>
+          </div>
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-mask [imageChosen]="imageChosen" [selected]="submenu == 'mask'"
+              (clicked)="submenu == 'mask' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-mask>
+          </div>
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-filter [imageChosen]="imageChosen" [selected]="submenu == 'filter'"
+              (clicked)="submenu == 'filter' ? hideMenu($event) : showMenu($event)"></tui-image-editor-menus-buttons-filter>
+          </div>
+          <div class="tool-icon">
+            <tui-image-editor-menus-buttons-download [imageChosen]="imageChosen"
+              [imageEditor]="imageEditor"></tui-image-editor-menus-buttons-download>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="sub-menu">
+          <div class="tui-image-editor-submenu new" [style.right.px]="isMenuExpanded ? 160 : 80"
+            *ngIf="submenu != null && showSubmenu">
+            <tui-image-editor-submenus-crop *ngIf="submenu == 'crop'" [imageEditor]="imageEditor"
+              (cancelCroppingRequested)="exitCropOnAction()"></tui-image-editor-submenus-crop>
+            <tui-image-editor-submenus-flip *ngIf="submenu == 'flip'"
+              [imageEditor]="imageEditor"></tui-image-editor-submenus-flip>
+            <tui-image-editor-submenus-rotate *ngIf="submenu == 'rotate'" [imageEditor]="imageEditor"
+              [(rotation)]="rotation"></tui-image-editor-submenus-rotate>
+            <tui-image-editor-submenus-draw *ngIf="submenu == 'draw'"
+              [imageEditor]="imageEditor"></tui-image-editor-submenus-draw>
+            <tui-image-editor-submenus-shape *ngIf="submenu == 'shape'"
+              [imageEditor]="imageEditor"></tui-image-editor-submenus-shape>
+            <tui-image-editor-submenus-icon *ngIf="submenu == 'icon'"
+              [imageEditor]="imageEditor"></tui-image-editor-submenus-icon>
+            <tui-image-editor-submenus-text *ngIf="submenu == 'text'"
+              [imageEditor]="imageEditor"></tui-image-editor-submenus-text>
+            <tui-image-editor-submenus-mask *ngIf="submenu == 'mask'"
+              [imageEditor]="imageEditor"></tui-image-editor-submenus-mask>
+            <tui-image-editor-submenus-filter *ngIf="submenu == 'filter'"
+              [imageEditor]="imageEditor"></tui-image-editor-submenus-filter>
+          </div>
+        </div>
+      </div>
+      <div class="toggler" (click)="isMenuExpanded=!isMenuExpanded" style="cursor: pointer;">
+        <svg *ngIf="!isMenuExpanded" width="18" height="16" viewBox="0 0 18 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0.864575 7.34425C0.503475 7.70535 0.503475 8.29473 0.864575 8.65583L7.93771 15.7287C8.29937 16.0904 8.88768 16.0904 9.2493 15.7287L9.64494 15.3331C10.0069 14.9711 10.007 14.3831 9.64498 14.0211L4.27939 8.65599C3.91733 8.29401 3.91733 7.7059 4.27939 7.34393L9.64494 1.97882C10.007 1.6168 10.007 1.02885 9.6449 0.66683L9.24926 0.27119C8.88816 -0.0899105 8.29877 -0.0899105 7.93767 0.27119L0.864575 7.34425ZM15.4293 0.27111C15.7907 -0.0903898 16.3796 -0.0903499 16.741 0.27111L17.1367 0.66675C17.498 1.02805 17.498 1.61744 17.1367 1.97878L11.7714 7.34393C11.4094 7.70595 11.4094 8.29398 11.7714 8.65599L17.1367 14.0211C17.4982 14.3825 17.4981 14.9717 17.1367 15.3331L16.7411 15.7288C16.3795 16.0904 15.7909 16.0904 15.4293 15.7288L8.98444 9.28372C7.17658 11.0898 7.63387 10.6318 8.98312 9.2824L8.35659 8.65583C7.99525 8.29449 7.99529 7.70554 8.35659 7.34421L15.4293 0.27111Z"
+            fill="#515355" />
+        </svg>
+        <svg *ngIf="isMenuExpanded" width="18" height="16" viewBox="0 0 18 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M17.1354 8.65575C17.4965 8.29465 17.4965 7.70527 17.1354 7.34417L10.0623 0.27127C9.70063 -0.0903886 9.11232 -0.0903885 8.7507 0.271271L8.35506 0.666911C7.99308 1.02889 7.993 1.61688 8.35502 1.97894L13.7206 7.34401C14.0827 7.70599 14.0827 8.2941 13.7206 8.65607L8.35506 14.0212C7.993 14.3832 7.99304 14.9712 8.3551 15.3332L8.75074 15.7288C9.11184 16.0899 9.70123 16.0899 10.0623 15.7288L17.1354 8.65575ZM2.57075 15.7289C2.20929 16.0904 1.62042 16.0904 1.25896 15.7289L0.863319 15.3333C0.50202 14.972 0.50198 14.3826 0.863319 14.0212L6.22863 8.65607C6.59065 8.29406 6.59065 7.70603 6.22863 7.34401L0.86328 1.9789C0.50182 1.61748 0.50186 1.02829 0.86328 0.666871L1.25892 0.27123C1.62054 -0.0903879 2.20909 -0.090428 2.57071 0.27123L9.01556 6.71628C10.8234 4.91023 10.3661 5.36824 9.01688 6.7176L9.64341 7.34417C10.0047 7.70551 10.0047 8.29446 9.64341 8.6558L2.57075 15.7289Z"
+            fill="#515355" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</ng-template>
