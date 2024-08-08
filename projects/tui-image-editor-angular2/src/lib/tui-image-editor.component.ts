@@ -162,7 +162,7 @@ export class TuiImageEditorComponent
     );
 
     if (this.initialImage != null) {
-      this.loadImage(this.initialImage);
+      this.onLoad(this.initialImage)
     }
   }
 
