@@ -398,7 +398,9 @@ export class TuiImageEditorComponent
     if (discardSelection) {
       clearSelection(this.imageEditor);
     }
-    this.imageEditor.stopDrawingMode();
+    if (menuName !== 'draw') {
+      this.imageEditor.stopDrawingMode();
+    }
     //this.stopShape();
     // this._changeMenu(menuName, toggle, discardSelection);
 
